@@ -1,34 +1,40 @@
 #![no_std]
 #![no_main]
 #![feature(panic_info_message)]
-#[macro_use]
 
+use core::arch::global_asm;
+
+#[macro_use]
 mod console;
 mod lang_items;
 mod sbi;
 mod syscall;
 mod trap;
-mod batch;
-
-
-use core::arch::global_asm;
+mod loader;
+mod config;
+mod task;
 
 global_asm!(include_str!("entry.asm"));
 global_asm!(include_str!("link_app.S"));
+
 fn clear_bss() {
     extern "C" {
         fn sbss();
         fn ebss();
     }
-    (sbss as usize..ebss as usize).for_each(|a| unsafe { (a as *mut u8).write_volatile(0) });
+    (sbss as usize..ebss as usize).for_each(|a| {
+        unsafe { (a as *mut u8).write_volatile(0) }
+    });
 }
 
 #[no_mangle]
 pub fn rust_main() -> ! {
     clear_bss();
-    println!("[Kernel] Hello, world!");
+    println!("[kernel] Hello, world!");
     trap::init();
-    batch::init();
-    batch::run_next_app();
+    loader::load_apps();
+    task::run_first_task();
+    panic!("Unreachable in rust_main!");
 }
+
 
