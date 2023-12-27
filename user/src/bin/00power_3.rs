@@ -10,7 +10,7 @@ const LEN: usize = 100;
 fn main() -> i32 {
     let p = 3u64;
     let m = 998244353u64;
-    let iter: usize = 200000;
+    let iter: usize = 400000;
     let mut s = [0u64; LEN];
     let mut cur = 0usize;
     s[cur] = 1;
@@ -18,12 +18,12 @@ fn main() -> i32 {
         let next = if cur + 1 == LEN { 0 } else { cur + 1 };
         s[next] = s[cur] * p % m;
         cur = next;
-        if i % 10000 == 0 {
-            println!("power_3 [{}/{}]", i, iter);
+        if i % 20000 == 0 {
+            println!("power_13 [{}/{}]", i, iter);
         }
     }
     println!("{}^{} = {}", p, iter, s[cur]);
-    println!("Test power_3 OK!");
+    println!("Test power_13 OK!");
     0
 }
 
