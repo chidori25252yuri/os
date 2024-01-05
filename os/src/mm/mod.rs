@@ -5,7 +5,7 @@ mod frame_allocator;
 mod memory_set;
 
 use page_table::{PageTable,PTEFlags};
-pub use page_table::{PageTableEntry,translated_byte_buffer};
+pub use page_table::{PageTableEntry,translated_byte_buffer,translated_str,translated_refmut};
 use address::{VPNRange, StepByOne};
 pub use address::{PhysAddr, VirtAddr, PhysPageNum, VirtPageNum};
 pub use frame_allocator::{FrameTracker, frame_alloc};
